@@ -31,6 +31,18 @@ class _EditTodoPageState extends State<EditTodoPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text('Edit ToDo'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                final provider =
+                    Provider.of<TodosProvider>(context, listen: false);
+                provider.removeTodo(widget.todo);
+
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.delete),
+            )
+          ],
         ),
         body: Padding(
           padding: EdgeInsets.all(16),
