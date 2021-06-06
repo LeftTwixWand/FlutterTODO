@@ -1,4 +1,5 @@
 import 'package:effective_time/model/todo.dart';
+import 'package:effective_time/page/edit_todo_page.dart';
 import 'package:effective_time/provider/todos.dart';
 import 'package:effective_time/utils.dart';
 import 'package:flutter/material.dart';
@@ -94,5 +95,9 @@ class TodoWidget extends StatelessWidget {
     Utils.showSnackBar(context, 'Deleted the task');
   }
 
-  void editTodo(BuildContext context, Todo todo) {}
+  void editTodo(BuildContext context, Todo todo) => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => EditTodoPage(todo: todo),
+        ),
+      );
 }

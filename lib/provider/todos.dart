@@ -38,6 +38,13 @@ class TodosProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  updateTodo(Todo todo, String title, String description) {
+    todo.title = title;
+    todo.description = description;
+
+    notifyListeners();
+  }
+
   bool toggleTodoStatus(Todo todo) {
     todo.isDone = !todo.isDone;
     notifyListeners();
