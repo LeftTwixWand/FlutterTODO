@@ -1,6 +1,9 @@
 import 'package:effective_time/model/todo.dart';
+import 'package:effective_time/provider/todos.dart';
+import 'package:effective_time/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 
 class TodoWidget extends StatelessWidget {
   final Todo todo;
@@ -21,15 +24,15 @@ class TodoWidget extends StatelessWidget {
               color: Colors.green,
               caption: 'Edit',
               icon: Icons.edit,
-              onTap: () {},
+              onTap: () => editTodo(context, todo),
             )
           ],
           secondaryActions: [
             IconSlideAction(
               color: Colors.red,
               caption: 'Delete',
+              onTap: () => deleteTodo(context, todo),
               icon: Icons.delete,
-              onTap: () {},
             )
           ],
           child: buildTodo(context),
@@ -46,7 +49,14 @@ class TodoWidget extends StatelessWidget {
             activeColor: Theme.of(context).primaryColor,
             checkColor: Colors.white,
             value: todo.isDone,
-            onChanged: (_) {},
+            onChanged: (_) {
+              final provider =
+                  Provider.of<TodosProvider>(context, listen: false);
+              final isDone = provider.toggleTodoStatus(todo);
+
+              Utils.showSnackBar(context,
+                  isDone ? 'Task completed!' : 'Task marked incomplete');
+            },
           ),
           const SizedBox(width: 8),
           Expanded(
@@ -76,4 +86,13 @@ class TodoWidget extends StatelessWidget {
       ),
     );
   }
+
+  void deleteTodo(BuildContext context, Todo todo) {
+    final provider = Provider.of<TodosProvider>(context, listen: false);
+    provider.removeTodo(todo);
+
+    Utils.showSnackBar(context, 'Deleted the task');
+  }
+
+  void editTodo(BuildContext context, Todo todo) {}
 }
